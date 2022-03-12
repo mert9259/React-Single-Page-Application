@@ -1,9 +1,7 @@
-import Layout from './layouts/layout';
-
-
+import AppMain from './pages/app';
 
 function App() {
-  return <Layout />;
+  return <AppMain />;
 }
 
 export default App;

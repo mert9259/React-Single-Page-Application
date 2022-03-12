@@ -1,13 +1,11 @@
 import React from "react";
 import Header from "../components/Header";
-import AddLink from "../pages/addLink/addLink";
-import Home from "../pages/home/home";
 
-const Layout = () => {
+const Layout = (props) => {
   return (
     <>
       <Header />
-      <AddLink />
+      {props.children}
     </>
   );
 };

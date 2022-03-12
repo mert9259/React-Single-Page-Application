@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const Container = styled.div`
   position: fixed;
-  top: 0px;
   display: flex;
   flex-direction: row;
-  top: 10px;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+`;
+
+const AlertContainer = styled.div`
   margin: 50px auto;
   padding: 15px 75px;
   min-width: 200px;
@@ -24,7 +28,7 @@ const AlertText = styled.div`
   font-weight: 600;
 `;
 
-const Alert = ({ message, type, boldText }) => {
+const Alert = ({ message, type, boldText, setAlert }) => {
   const colorBackgroundColor = {
     success: "#cbffc4",
     error: "#ffc4c4",
@@ -38,18 +42,29 @@ const Alert = ({ message, type, boldText }) => {
     error: "#bf5c5c",
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (!!type) setAlert({});
+    }, 5000);
+  }, [type]);
+
   return (
-    <Container
-      style={{
-        backgroundColor: colorBackgroundColor[type],
-        color: color[type],
-        borderColor: colorBorder[type],
-      }}
-    >
-      <AlertText>
-        {boldText && <b style={{ fontWeight: 800 }}>{boldText}</b>} {message}
-      </AlertText>
-    </Container>
+    !!type && (
+      <Container>
+        <AlertContainer
+          style={{
+            backgroundColor: colorBackgroundColor[type],
+            color: color[type],
+            borderColor: colorBorder[type],
+          }}
+        >
+          <AlertText>
+            {boldText && <b style={{ fontWeight: 800 }}>{boldText}</b>}{" "}
+            {message}
+          </AlertText>
+        </AlertContainer>
+      </Container>
+    )
   );
 };
 
