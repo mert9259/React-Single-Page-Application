@@ -1,13 +1,13 @@
 import * as actionTypes from "./actionTypes";
 
-export const linkVoteUp = (index) => ({
+export const linkVoteUp = (id) => ({
     type: actionTypes.LINK_VOTE_UP,
-    payload: index
+    payload: id
 })
 
-export const linkVoteDown = (index) => ({
+export const linkVoteDown = (id) => ({
     type: actionTypes.LINK_VOTE_DOWN,
-    payload: index
+    payload: id
 })
 
 export const linkCreate = (link) => ({
@@ -19,9 +19,9 @@ export const linkLoad = () => ({
     type: actionTypes.LINK_LOAD
 })
 
-export const linkDelete = (index) => ({
+export const linkDelete = (id) => ({
     type: actionTypes.LINK_DELETE,
-    payload: index
+    payload: id
 })
 
 export const linkList = () => ({

@@ -6,7 +6,7 @@ const ListLink = ({ onePageLinkArray }) => {
     <div>
       {onePageLinkArray.length > 0 ? (
         onePageLinkArray.map((item, index) => (
-          <LinkContainer link={{ ...item, index }} key={index} />
+          <LinkContainer link={{ ...item }} key={index} />
         ))
       ) : (
         <h1 style={{ textAlign: "center" }}>Empty</h1>

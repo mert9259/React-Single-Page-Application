@@ -37,7 +37,7 @@ const Content = styled.div`
 `;
 
 const Button = styled.span`
-  float:left;
+  float: left;
   width: 55px;
   padding: 7px 30px;
   text-align: center;
@@ -49,20 +49,34 @@ const Button = styled.span`
   cursor: pointer;
 `;
 
-const Modal = ({ message, link }) => {
+const Modal = ({ message, linkName, visible, onOk, onCancel, id }) => {
+  if (!visible) return null;
+
   return (
     <Background>
       <Container>
         <Header>
           Remove Link{" "}
-          <i className="fa-solid fa-xmark clickable" style={{ fontSize: 23 }}></i>
+          <i
+            className="fa-solid fa-xmark clickable"
+            style={{ fontSize: 23 }}
+          ></i>
         </Header>
         <Content>
-          <div style={{marginTop: 25, fontWeight: 500, color: "grey"}}>Do you want to remove:</div>
-          <b style={{fontSize: 25,marginBottom: 25}}>REDDIT</b>
+          <div style={{ marginTop: 25, fontWeight: 500, color: "grey" }}>
+            {message}
+          </div>
+          <b style={{ fontSize: 25, marginBottom: 25 }}>{linkName}</b>
           <div>
-            <Button>OK</Button>
-            <Button>CANCEL</Button>
+            <Button
+              onClick={() => {
+                onOk(id);
+                onCancel(false);
+              }}
+            >
+              OK
+            </Button>
+            <Button onClick={() => onCancel(false)}>CANCEL</Button>
           </div>
         </Content>
       </Container>

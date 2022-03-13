@@ -3,10 +3,9 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Alert from "../../components/Alert";
 import Layout from "../../layouts/layout";
-import LinkService from "../../services/linkServices";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { linkCreate } from "../../redux/actions/linkActions";
+import * as linkActions from "../../redux/actions/linkActions";
 
 const Container = styled.div`
   display: flex;
@@ -35,6 +34,7 @@ const Button = styled.span`
 `;
 
 const AddLink = (props) => {
+  console.log('props', props);
   const [linkName, setlinkName] = useState("");
   const [linkUrl, setlinkUrl] = useState("");
   const [alert, setAlert] = useState({});
@@ -49,13 +49,11 @@ const AddLink = (props) => {
         setAlert,
       });
     else {
-      props.dispatch(
-        linkCreate({
-          linkName,
-          linkUrl,
-          points: 0,
-        })
-      );
+      props.actions.linkCreate({
+        linkName,
+        linkUrl,
+        points: 0,
+      });
 
       setAlert({
         message: " added",
@@ -63,6 +61,9 @@ const AddLink = (props) => {
         type: "success",
         setAlert,
       });
+
+      setlinkName("");
+      setlinkUrl("");
     }
   };
 
@@ -78,9 +79,9 @@ const AddLink = (props) => {
         </small>
         <h1>Add New Link</h1>
         <label>Link Name:</label>
-        <Input onChange={(e) => setlinkName(e.target.value)} />
+        <Input value={linkName} onChange={(e) => setlinkName(e.target.value)} />
         <label style={{ marginTop: 15 }}>Link URL:</label>
-        <Input onChange={(e) => setlinkUrl(e.target.value)} />
+        <Input value={linkUrl} onChange={(e) => setlinkUrl(e.target.value)} />
         <Button onClick={() => handleSaveLink()}> ADD </Button>
       </Container>
       <Alert {...alert} />
@@ -90,10 +91,10 @@ const AddLink = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    action: {
-      linkCreate: bindActionCreators(linkCreate, dispatch)
-    }
+    actions: {
+      linkCreate: bindActionCreators(linkActions.linkCreate, dispatch),
+    },
   };
 };
 
-export default connect(mapDispatchToProps)(AddLink);
+export default connect(null,mapDispatchToProps)(AddLink);

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import styled from "styled-components";
+import Modal from "../components/Modal";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { linkVoteUp, linkVoteDown, linkDelete } from "../redux/actions/linkActions";
+import * as linkActions from "../redux/actions/linkActions";
 
 const Container = styled.div`
   display: flex;
@@ -45,6 +46,7 @@ const DeleteIcon = styled.div`
 const LinkContainer = (props) => {
   const { link } = props;
   const [selected, setSelected] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const voteButtonStyle = {
     color: "#adadad",
@@ -77,23 +79,31 @@ const LinkContainer = (props) => {
         <span
           className="clickable"
           style={{ ...voteButtonStyle, marginRight: 50 }}
-          onClick={() => props.dispatch(linkVoteUp(link.index))}
+          onClick={() => props.actions.linkVoteUp(link.id)}
         >
           <i className="fa-solid fa-arrow-up"></i> Up Vote
         </span>
         <span
           className="clickable"
           style={voteButtonStyle}
-          onClick={() => props.dispatch(linkVoteDown(link.index))}
+          onClick={() => props.actions.linkVoteDown(link.id)}
         >
           <i className="fa-solid fa-arrow-down"></i> Down Vote
         </span>
       </div>
       {selected && (
-        <DeleteIcon onClick={()=>props.dispatch(linkDelete(link.index))}>
+        <DeleteIcon onClick={() => setShowModal(true)}>
           <i className="fa-solid fa-circle-minus"></i>
         </DeleteIcon>
       )}
+      <Modal
+        message={"Do you want to remove:"}
+        linkName={link.linkName}
+        onOk={props.actions.linkDelete}
+        id={link.id}
+        visible={showModal}
+        onCancel={setShowModal}
+      />
     </Container>
   ) : (
     <Container isAddLink={true} className="clickable">
@@ -107,12 +117,12 @@ const LinkContainer = (props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    action: {
-      linkVoteUp: bindActionCreators(linkVoteUp, dispatch),
-      linkVoteDown: bindActionCreators(linkVoteDown, dispatch),
-      linkDelete: bindActionCreators(linkDelete,dispatch)
+    actions: {
+      linkVoteUp: bindActionCreators(linkActions.linkVoteUp, dispatch),
+      linkVoteDown: bindActionCreators(linkActions.linkVoteDown, dispatch),
+      linkDelete: bindActionCreators(linkActions.linkDelete, dispatch),
     },
   };
 };
 
-export default connect(mapDispatchToProps)(LinkContainer);
+export default connect(null, mapDispatchToProps)(LinkContainer);
