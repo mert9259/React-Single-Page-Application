@@ -4,6 +4,9 @@ import styled from "styled-components";
 import Alert from "../../components/Alert";
 import Layout from "../../layouts/layout";
 import LinkService from "../../services/linkServices";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { linkCreate } from "../../redux/actions/linkActions";
 
 const Container = styled.div`
   display: flex;
@@ -31,7 +34,7 @@ const Button = styled.span`
   cursor: pointer;
 `;
 
-const AddLink = () => {
+const AddLink = (props) => {
   const [linkName, setlinkName] = useState("");
   const [linkUrl, setlinkUrl] = useState("");
   const [alert, setAlert] = useState({});
@@ -46,19 +49,20 @@ const AddLink = () => {
         setAlert,
       });
     else {
-      const linkArray = [...LinkService.load()];
-      linkArray.push({
-        linkName,
-        linkUrl,
-        points: 0,
+      props.dispatch(
+        linkCreate({
+          linkName,
+          linkUrl,
+          points: 0,
+        })
+      );
+
+      setAlert({
+        message: " added",
+        boldText: linkName,
+        type: "success",
+        setAlert,
       });
-      if (LinkService.save(linkArray))
-        setAlert({
-          message: " added",
-          boldText: linkName,
-          type: "success",
-          setAlert,
-        });
     }
   };
 
@@ -84,4 +88,12 @@ const AddLink = () => {
   );
 };
 
-export default AddLink;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    action: {
+      linkCreate: bindActionCreators(linkCreate, dispatch)
+    }
+  };
+};
+
+export default connect(mapDispatchToProps)(AddLink);

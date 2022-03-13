@@ -11,7 +11,8 @@ const Container = styled.div`
 `;
 
 const AlertContainer = styled.div`
-  margin: 50px auto;
+  margin: auto;
+  margin-top: 50px;
   padding: 15px 75px;
   min-width: 200px;
   text-align: center;

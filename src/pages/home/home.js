@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import LinkContainer from "../../components/LinkContainer";
 import Layout from "../../layouts/layout";
 import { useHistory } from "react-router-dom";
-import LinkService from "../../services/linkServices";
 import Pagination from "./components/Pagination";
+import { connect } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -24,9 +24,8 @@ const LinkListContiner = styled.div`
   padding: 10px 20px;
 `;
 
-const Home = () => {
+const Home = (props) => {
   let history = useHistory();
-  const [links, setLinks] = useState(LinkService.load());
 
   return (
     <Layout>
@@ -35,11 +34,17 @@ const Home = () => {
           <LinkContainer link={{ isLink: true }} />
         </AddContiner>
         <LinkListContiner>
-          <Pagination links={links} setLinks={setLinks} />
+          <Pagination links={props.linkList} />
         </LinkListContiner>
       </Container>
     </Layout>
   );
 };
 
-export default Home;
+const mapStateToProps = (state) => {
+  return {
+    linkList: state.linkReducer,
+  };
+};
+
+export default connect(mapStateToProps)(Home);

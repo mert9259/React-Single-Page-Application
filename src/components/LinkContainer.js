@@ -1,9 +1,12 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import { bindActionCreators } from "redux";
+import { linkVoteUp, linkVoteDown, linkDelete } from "../redux/actions/linkActions";
 
 const Container = styled.div`
   display: flex;
-  width: 380px; 
+  width: 380px;
   flex-direction: row;
   padding: 0px 10px;
   border-radius: 10px;
@@ -39,7 +42,8 @@ const DeleteIcon = styled.div`
   top: -12px;
 `;
 
-const LinkContainer = ({ link }) => {
+const LinkContainer = (props) => {
+  const { link } = props;
   const [selected, setSelected] = useState(false);
 
   const voteButtonStyle = {
@@ -73,15 +77,20 @@ const LinkContainer = ({ link }) => {
         <span
           className="clickable"
           style={{ ...voteButtonStyle, marginRight: 50 }}
+          onClick={() => props.dispatch(linkVoteUp(link.index))}
         >
           <i className="fa-solid fa-arrow-up"></i> Up Vote
         </span>
-        <span className="clickable" style={voteButtonStyle}>
+        <span
+          className="clickable"
+          style={voteButtonStyle}
+          onClick={() => props.dispatch(linkVoteDown(link.index))}
+        >
           <i className="fa-solid fa-arrow-down"></i> Down Vote
         </span>
       </div>
       {selected && (
-        <DeleteIcon>
+        <DeleteIcon onClick={()=>props.dispatch(linkDelete(link.index))}>
           <i className="fa-solid fa-circle-minus"></i>
         </DeleteIcon>
       )}
@@ -96,4 +105,14 @@ const LinkContainer = ({ link }) => {
   );
 };
 
-export default LinkContainer;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    action: {
+      linkVoteUp: bindActionCreators(linkVoteUp, dispatch),
+      linkVoteDown: bindActionCreators(linkVoteDown, dispatch),
+      linkDelete: bindActionCreators(linkDelete,dispatch)
+    },
+  };
+};
+
+export default connect(mapDispatchToProps)(LinkContainer);
