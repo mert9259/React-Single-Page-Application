@@ -2,7 +2,7 @@ const LinkService = {};
 
 LinkService.load = () => {
   try {
-    return JSON.parse(localStorage.getItem("linkArray"));
+    return JSON.parse(localStorage.getItem("linkArray")).sort((a,b) => b.id - a.id);
   } catch (error) {
     console.log("error", error);
     return false;
@@ -11,7 +11,7 @@ LinkService.load = () => {
 
 LinkService.save = (linkArray) => {
   try {
-    localStorage.setItem("linkArray", JSON.stringify(linkArray));
+    localStorage.setItem("linkArray", JSON.stringify(linkArray.sort((a,b) => b.id - a.id)));
     return true;
   } catch (error) {
     console.log("error", error);

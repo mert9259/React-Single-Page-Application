@@ -29,7 +29,7 @@ const AlertText = styled.div`
   font-weight: 600;
 `;
 
-const Alert = ({ message, type, boldText, setAlert }) => {
+const Alert = ({ message, type, boldText, visible, setVisible }) => {
   const colorBackgroundColor = {
     success: "#cbffc4",
     error: "#ffc4c4",
@@ -44,13 +44,14 @@ const Alert = ({ message, type, boldText, setAlert }) => {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      if (!!type) setAlert({});
+    const timer = setTimeout(() => {
+      setVisible(false);
     }, 5000);
-  }, [type]);
+    return () => clearTimeout(timer);
+  }, [message, type, boldText]);
 
   return (
-    !!type && (
+    visible && (
       <Container>
         <AlertContainer
           style={{

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ListLink from "./ListLink";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as linkActions from "../../../redux/actions/linkActions";
 
 const Select = styled.select`
   width: 200px;
@@ -20,13 +23,15 @@ const PageNumberContainer = styled.b`
   padding: 0px 10px;
 `;
 
-const Pagination = ({ links }) => {
+const Pagination = (props) => {
   const [onePageLinkArray, setOnePageLinkArray] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedSort, setSelectedSort] = useState(null);
+
   const pageNumber =
-    links.length % 5 == 0
-      ? Math.floor(links.length / 5)
-      : Math.floor(links.length / 5) + 1;
+    props.linkList.length % 5 == 0
+      ? Math.floor(props.linkList.length / 5)
+      : Math.floor(props.linkList.length / 5) + 1;
   const pageNumberArray = [
     currentPage - 2,
     currentPage - 1,
@@ -37,12 +42,12 @@ const Pagination = ({ links }) => {
 
   useEffect(() => {
     linksShownInPageChange();
-  }, [currentPage, links]);
+  }, [currentPage, props.linkList]);
 
   const linksShownInPageChange = () => {
     setOnePageLinkArray(
-      links.length > 0
-        ? links.filter(
+      props.linkList.length > 0
+        ? props.linkList.filter(
             (item, index) =>
               currentPage * 5 > index && index >= (currentPage - 1) * 5
           )
@@ -60,10 +65,19 @@ const Pagination = ({ links }) => {
     );
   };
 
+  useEffect(() => {
+    if(!!selectedSort){
+      props.actions.listSort(selectedSort);
+    }
+  }, [props.linkList,selectedSort])
+
   return (
     <>
       {pageNumberArray.length > 0 && (
-        <Select defaultValue={"default"}>
+        <Select
+          defaultValue={"default"}
+          onChange={(e) => setSelectedSort(e.target.value)}
+        >
           <option value="default" disabled hidden>
             Order by
           </option>
@@ -106,4 +120,18 @@ const Pagination = ({ links }) => {
   );
 };
 
-export default Pagination;
+const mapStateToProps = (state) => {
+  return {
+    linkList: state.linkReducer,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: {
+      listSort: bindActionCreators(linkActions.linkSort, dispatch),
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pagination);

@@ -4,7 +4,6 @@ import LinkContainer from "../../components/LinkContainer";
 import Layout from "../../layouts/layout";
 import { useHistory } from "react-router-dom";
 import Pagination from "./components/Pagination";
-import { connect } from "react-redux";
 
 const Container = styled.div`
   display: flex;
@@ -24,7 +23,7 @@ const LinkListContiner = styled.div`
   padding: 10px 20px;
 `;
 
-const Home = (props) => {
+const Home = () => {
   let history = useHistory();
 
   return (
@@ -34,17 +33,11 @@ const Home = (props) => {
           <LinkContainer link={{ isLink: true }} />
         </AddContiner>
         <LinkListContiner>
-          <Pagination links={props.linkList} />
+          <Pagination />
         </LinkListContiner>
       </Container>
     </Layout>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    linkList: state.linkReducer,
-  };
-};
-
-export default connect(mapStateToProps)(Home);
+export default Home;

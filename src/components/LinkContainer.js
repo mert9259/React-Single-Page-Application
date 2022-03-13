@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as linkActions from "../redux/actions/linkActions";
+import Alert from "./Alert";
 
 const Container = styled.div`
   display: flex;
@@ -47,6 +48,8 @@ const LinkContainer = (props) => {
   const { link } = props;
   const [selected, setSelected] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [alert, setAlert] = useState({});
 
   const voteButtonStyle = {
     color: "#adadad",
@@ -99,11 +102,20 @@ const LinkContainer = (props) => {
       <Modal
         message={"Do you want to remove:"}
         linkName={link.linkName}
-        onOk={props.actions.linkDelete}
-        id={link.id}
+        onOk={() => {
+          setAlert({
+            boldText: link.linkName,
+            message: " removed.",
+            type: props.actions.linkDelete(link.id) ? "success" : "error",
+          });
+          setVisible(true);
+        }}
         visible={showModal}
-        onCancel={setShowModal}
+        onCancel={() => {
+          setShowModal(false);
+        }}
       />
+      <Alert {...alert} visible={visible} setVisible={setVisible} />
     </Container>
   ) : (
     <Container isAddLink={true} className="clickable">

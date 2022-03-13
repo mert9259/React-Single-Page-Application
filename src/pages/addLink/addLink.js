@@ -34,21 +34,21 @@ const Button = styled.span`
 `;
 
 const AddLink = (props) => {
-  console.log('props', props);
   const [linkName, setlinkName] = useState("");
   const [linkUrl, setlinkUrl] = useState("");
   const [alert, setAlert] = useState({});
+  const [visible, setVisible] = useState(false);
 
   let history = useHistory();
 
   const handleSaveLink = () => {
-    if (!linkName || !linkUrl)
+    if (!linkName || !linkUrl) {
       setAlert({
         message: "Alanlar boş bırakılamaz lütfen kontrol ediniz.",
         type: "error",
-        setAlert,
       });
-    else {
+      setVisible(true);
+    } else {
       props.actions.linkCreate({
         linkName,
         linkUrl,
@@ -59,9 +59,8 @@ const AddLink = (props) => {
         message: " added",
         boldText: linkName,
         type: "success",
-        setAlert,
       });
-
+      setVisible(true);
       setlinkName("");
       setlinkUrl("");
     }
@@ -84,7 +83,7 @@ const AddLink = (props) => {
         <Input value={linkUrl} onChange={(e) => setlinkUrl(e.target.value)} />
         <Button onClick={() => handleSaveLink()}> ADD </Button>
       </Container>
-      <Alert {...alert} />
+      <Alert {...alert} visible={visible} setVisible={setVisible} />
     </Layout>
   );
 };
@@ -97,4 +96,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(null,mapDispatchToProps)(AddLink);
+export default connect(null, mapDispatchToProps)(AddLink);

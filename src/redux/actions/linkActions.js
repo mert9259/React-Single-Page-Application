@@ -24,6 +24,7 @@ export const linkDelete = (id) => ({
     payload: id
 })
 
-export const linkList = () => ({
-    type: actionTypes.LINK_LIST
+export const linkSort = (type) => ({
+    type: actionTypes.LINK_SORT,
+    payload: type
 })

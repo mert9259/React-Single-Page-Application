@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const Background = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0px;
   left: 0px;
   display: flex;
@@ -49,7 +49,7 @@ const Button = styled.span`
   cursor: pointer;
 `;
 
-const Modal = ({ message, linkName, visible, onOk, onCancel, id }) => {
+const Modal = ({ message, linkName, visible, onOk, onCancel }) => {
   if (!visible) return null;
 
   return (
@@ -60,6 +60,7 @@ const Modal = ({ message, linkName, visible, onOk, onCancel, id }) => {
           <i
             className="fa-solid fa-xmark clickable"
             style={{ fontSize: 23 }}
+            onClick={()=>onCancel()}
           ></i>
         </Header>
         <Content>
@@ -70,8 +71,8 @@ const Modal = ({ message, linkName, visible, onOk, onCancel, id }) => {
           <div>
             <Button
               onClick={() => {
-                onOk(id);
-                onCancel(false);
+                onOk();
+                onCancel();
               }}
             >
               OK
