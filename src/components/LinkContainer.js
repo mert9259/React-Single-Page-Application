@@ -82,14 +82,20 @@ const LinkContainer = (props) => {
         <span
           className="clickable"
           style={{ ...voteButtonStyle, marginRight: 50 }}
-          onClick={() => props.actions.linkVoteUp(link.id)}
+          onClick={() => {
+            props.actions.linkVoteUp(link.id);
+            props.setVoteChange(!props.voteChange);
+          }}
         >
           <i className="fa-solid fa-arrow-up"></i> Up Vote
         </span>
         <span
           className="clickable"
           style={voteButtonStyle}
-          onClick={() => props.actions.linkVoteDown(link.id)}
+          onClick={() => {
+            props.actions.linkVoteDown(link.id);
+            props.setVoteChange(!props.voteChange);
+          }}
         >
           <i className="fa-solid fa-arrow-down"></i> Down Vote
         </span>

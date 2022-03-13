@@ -27,6 +27,7 @@ const Pagination = (props) => {
   const [onePageLinkArray, setOnePageLinkArray] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedSort, setSelectedSort] = useState(null);
+  const [voteChange, setVoteChange] = useState(false);
 
   const pageNumber =
     props.linkList.length % 5 == 0
@@ -66,10 +67,10 @@ const Pagination = (props) => {
   };
 
   useEffect(() => {
-    if(!!selectedSort){
+    if (!!selectedSort) {
       props.actions.listSort(selectedSort);
     }
-  }, [props.linkList,selectedSort])
+  }, [voteChange, selectedSort]);
 
   return (
     <>
@@ -85,7 +86,11 @@ const Pagination = (props) => {
           <option value="lest">Less Voted (A &#8594; Z)</option>
         </Select>
       )}
-      <ListLink onePageLinkArray={onePageLinkArray} />
+      <ListLink
+        onePageLinkArray={onePageLinkArray}
+        voteChange={voteChange}
+        setVoteChange={setVoteChange}
+      />
       {pageNumberArray.length > 0 && (
         <PaginationNumberContiner>
           <span
