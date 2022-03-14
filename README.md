@@ -1,3 +1,6 @@
+
+I created this project using react, redux, react-router-dom, styled-components. I wrote Unit test for redux using jest. and I didn't use any ui libraries. 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
