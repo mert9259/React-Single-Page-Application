@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import LinkContainer from "../../components/LinkContainer";
 import Layout from "../../layouts/layout";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Pagination from "./components/Pagination";
 
 const Container = styled.div`
@@ -24,12 +24,12 @@ const LinkListContiner = styled.div`
 `;
 
 const Home = () => {
-  let history = useHistory();
+  let navigate = useNavigate();
 
   return (
     <Layout>
       <Container>
-        <AddContiner onClick={() => history.push("addLink")}>
+        <AddContiner onClick={() => navigate("addLink")}>
           <LinkContainer link={{ isLink: true }} />
         </AddContiner>
         <LinkListContiner>

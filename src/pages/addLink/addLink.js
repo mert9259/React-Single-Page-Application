@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Alert from "../../components/Alert";
 import Layout from "../../layouts/layout";
@@ -39,7 +39,7 @@ const AddLink = (props) => {
   const [alert, setAlert] = useState({});
   const [visible, setVisible] = useState(false);
 
-  let history = useHistory();
+  let navigate = useNavigate();
 
   const handleSaveLink = () => {
     if (!linkName || !linkUrl) {
@@ -72,7 +72,7 @@ const AddLink = (props) => {
         <small
           className="clickable"
           style={{ fontWeight: 700 }}
-          onClick={() => history.goBack()}
+          onClick={() => navigate(-1)}
         >
           <i className="fa-solid fa-arrow-left-long"></i> Return to List
         </small>
