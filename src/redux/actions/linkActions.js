@@ -15,10 +15,6 @@ export const linkCreate = (link) => ({
     payload: link
 })
 
-export const linkLoad = () => ({
-    type: actionTypes.LINK_LOAD
-})
-
 export const linkDelete = (id) => ({
     type: actionTypes.LINK_DELETE,
     payload: id

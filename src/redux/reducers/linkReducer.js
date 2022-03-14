@@ -2,7 +2,7 @@ import LinkService from "../../services/linkServices";
 import * as actionTypes from "../actions/actionTypes";
 import initialState from "./initialState";
 
-const voteReducer = (state = initialState.initLinkList, action) => {
+const linkReducer = (state = initialState.initLinkList, action) => {
   let linkList = state;
 
   switch (action.type) {
@@ -60,4 +60,4 @@ const voteReducer = (state = initialState.initLinkList, action) => {
   }
 };
 
-export default voteReducer;
+export default linkReducer;
